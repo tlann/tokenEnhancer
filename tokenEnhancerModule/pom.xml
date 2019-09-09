@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>token-enhancer-parent</artifactId>
+        <groupId>mil.noms.utils.security</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>mil.noms.utils.security</groupId>
+    <artifactId>token-enhancer-module</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <keycloak.version>6.0.1</keycloak.version>
+        <gitUrl>https://bitbucket.di2e.net/scm/noms/mil.noms.service.user.user-service.git</gitUrl>
+        <publishUrl>https://nexus.di2e.net/nexus3</publishUrl>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-core</artifactId>
+            <version>${keycloak.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-server-spi</artifactId>
+            <version>${keycloak.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-server-spi-private</artifactId>
+            <version>${keycloak.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-services</artifactId>
+            <version>${keycloak.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+            <version>1.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>mil.noms.sql.types</groupId>
+            <artifactId>custom-types</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mil.noms.utils.database</groupId>
+            <artifactId>database-utils</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.1.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>mil.noms.repository.user</groupId>
+            <artifactId>user-repository</artifactId>
+            <version>1.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>2.0.SP1</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>maven-public-local</id>
+            <name>Local (noms.mugu) Maven Packages</name>
+            <url>http://nexus.noms.mugu/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>maven-di2e-group</id>
+            <name>DI2E NOMS Maven packages</name>
+            <url>https://nexus.di2e.net/nexus3/repository/Private_NOMS_Maven/</url>
+        </repository>
+        <repository>
+            <id>maven-public-ci</id>
+            <name>NOMS Release and Snapshots Repo</name>
+            <url>https://nexus-noms-ci-suite.unity.services.nres.navy.mil/repository/maven-public/</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>di2e-snapshots</id>
+            <name>DI2E NOMS Snapshots</name>
+            <url>${publishUrl}/repository/Private_NOMS_Snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>di2e-releases</id>
+            <name>DI2E NOMS Releases</name>
+            <url>${publishUrl}/repository/Private_NOMS_Releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+</project>

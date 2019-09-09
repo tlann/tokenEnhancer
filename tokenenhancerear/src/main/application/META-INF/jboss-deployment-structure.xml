@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <deployment>
+        <module-alias name="deployment.token-enhancer"/>
+        <dependencies>
+            <module name="org.hibernate"/>
+            <module name="org.keycloak.keycloak-services"/>
+        </dependencies>
+    </deployment>
+    <sub-deployment name="mil.noms.utils.security-token-enhancer-module-1.0.0-SNAPSHOT.jar">
+        <dependencies>
+            <module name="org.hibernate"/>
+            <module name="org.keycloak.keycloak-services"/>
+        </dependencies>
+    </sub-deployment>
+</jboss-deployment-structure>

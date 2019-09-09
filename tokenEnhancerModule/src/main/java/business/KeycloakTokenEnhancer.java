@@ -1,3 +1,7 @@
+package business;
+
+import mil.noms.domain.user.models.v1.User;
+import mil.noms.repository.user.repositories.v1.ReadOnlyUserRepository;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.ProtocolMapperModel;
@@ -6,7 +10,7 @@ import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.protocol.oidc.mappers.*;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.representations.AccessToken;
-import org.keycloak.representations.IDToken;
+import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,17 +29,24 @@ public class KeycloakTokenEnhancer extends AbstractOIDCProtocolMapper implements
 
     @Override
     public AccessToken transformAccessToken(AccessToken accessToken, ProtocolMapperModel protocolMapperModel, KeycloakSession keycloakSession, UserSessionModel userSessionModel, ClientSessionContext clientSessionContext) {
+        System.out.println("++++++++++++++++++++++++++++++++");
+        ReadOnlyUserRepository readOnlyUserRepository = BeanUtil.getBean(ReadOnlyUserRepository.class);
+        List<User> all = readOnlyUserRepository.findAll();
+        System.out.printf( "This many %d\n",all.size() );
+        System.out.println("++++++++++++++++++++++++++++++++");
+
+        accessToken.getOtherClaims().put("fruit", "pear, apple, tangerine");
         return accessToken;
     }
 
     @Override
     public String getDisplayCategory() {
-        return "Token Enhancer mapper";
+        return "NOMS Token Enhancer";
     }
 
     @Override
     public String getDisplayType() {
-        return "Token Enhancer Mapper";
+        return "NOMS Token Enhancer";
     }
 
     @Override
@@ -53,11 +64,6 @@ public class KeycloakTokenEnhancer extends AbstractOIDCProtocolMapper implements
         return PROVIDER_ID;
     }
 
-
-    protected void setClaim(IDToken token, ProtocolMapperModel mappingModel, UserSessionModel userSession) {
-        token.getOtherClaims().put("fruit", "pear, apple, tangerine");
-    }
-
     public static ProtocolMapperModel create(String name, boolean accessToken, boolean idToken, boolean userInfo) {
         ProtocolMapperModel mapper = new ProtocolMapperModel();
         mapper.setName(name);
@@ -68,6 +74,7 @@ public class KeycloakTokenEnhancer extends AbstractOIDCProtocolMapper implements
         if (idToken) config.put(OIDCAttributeMapperHelper.INCLUDE_IN_ID_TOKEN, "true");
         if (userInfo) config.put(OIDCAttributeMapperHelper.INCLUDE_IN_USERINFO, "true");
         mapper.setConfig(config);
+
         return mapper;
     }
 

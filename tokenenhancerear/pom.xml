@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>noms.security.keycloak</groupId>
+    <artifactId>token-enhancer-ear</artifactId>
+    <packaging>ear</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>mil.noms.utils.security</groupId>
+        <artifactId>token-enhancer-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>mil.noms.utils.security</groupId>
+            <artifactId>token-enhancer-module</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <defaultLibBundleDir>lib</defaultLibBundleDir>
+                        <modules>
+                            <jarModule>
+                                <groupId>mil.noms.utils.security</groupId>
+                                <artifactId>token-enhancer-module</artifactId>
+                                <includeInApplicationXml>true</includeInApplicationXml>
+                                <bundleDir>/</bundleDir>
+                            </jarModule>
+                        </modules>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
