@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Using the following to load postgres-->
+<!--https://stackoverflow.com/questions/35582579/is-it-possible-to-use-a-datasource-deployment-descriptor-with-a-driver-module-in-->
 <jboss-deployment-structure>
     <deployment>
         <module-alias name="deployment.token-enhancer"/>
@@ -7,10 +9,17 @@
             <module name="org.keycloak.keycloak-services"/>
         </dependencies>
     </deployment>
-    <sub-deployment name="mil.noms.utils.security-token-enhancer-module-1.0.0-SNAPSHOT.jar">
+    <sub-deployment name="com.example.security-token-enhancer-module-1.0.0-SNAPSHOT.jar">
         <dependencies>
             <module name="org.hibernate"/>
             <module name="org.keycloak.keycloak-services"/>
+            <module name="org.postgresql.jdbc" services="export">
+                <imports>
+                    <include path="META-INF**"/>
+                    <include path="org**"/>
+                    <!-- assuming package of the driver is org.something -->
+                </imports>
+            </module>
         </dependencies>
     </sub-deployment>
 </jboss-deployment-structure>

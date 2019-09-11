@@ -1,7 +1,5 @@
 package business;
 
-import mil.noms.domain.user.models.v1.User;
-import mil.noms.repository.user.repositories.v1.ReadOnlyUserRepository;
 import org.keycloak.models.ClientSessionContext;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.ProtocolMapperModel;
@@ -10,8 +8,11 @@ import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.protocol.oidc.mappers.*;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.representations.AccessToken;
-import org.springframework.core.env.Environment;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,9 @@ public class KeycloakTokenEnhancer extends AbstractOIDCProtocolMapper implements
 
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<>();
 
+    @PersistenceContext(unitName = "UserPU")
+    protected EntityManager entityManager;
+
     static {
         OIDCAttributeMapperHelper.addIncludeInTokensConfig(configProperties, KeycloakTokenEnhancer.class);
     }
@@ -30,9 +34,25 @@ public class KeycloakTokenEnhancer extends AbstractOIDCProtocolMapper implements
     @Override
     public AccessToken transformAccessToken(AccessToken accessToken, ProtocolMapperModel protocolMapperModel, KeycloakSession keycloakSession, UserSessionModel userSessionModel, ClientSessionContext clientSessionContext) {
         System.out.println("++++++++++++++++++++++++++++++++");
-        ReadOnlyUserRepository readOnlyUserRepository = BeanUtil.getBean(ReadOnlyUserRepository.class);
-        List<User> all = readOnlyUserRepository.findAll();
-        System.out.printf( "This many %d\n",all.size() );
+
+        if (entityManager == null ) {
+            System.out.println("entityManager is null ");
+        }
+
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("UserPU");
+
+        if (entityManagerFactory == null ) {
+            System.out.println("entityManagerFactory is null ");
+        }
+        else {
+            EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+            if (entityManager2 == null) {
+                System.out.println("entityManager2 is null ");
+            }
+        }
+
+
         System.out.println("++++++++++++++++++++++++++++++++");
 
         accessToken.getOtherClaims().put("fruit", "pear, apple, tangerine");
@@ -41,12 +61,12 @@ public class KeycloakTokenEnhancer extends AbstractOIDCProtocolMapper implements
 
     @Override
     public String getDisplayCategory() {
-        return "NOMS Token Enhancer";
+        return "Token Enhancer";
     }
 
     @Override
     public String getDisplayType() {
-        return "NOMS Token Enhancer";
+        return "Token Enhancer";
     }
 
     @Override
